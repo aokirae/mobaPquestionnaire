@@ -34,6 +34,47 @@ for i in df.index:
 df = df.drop('属性', axis=1)
 
 pred = KMeans(n_clusters = 4).fit_predict(df.values.tolist())
-df["cluster"] = pred
+cpy_df = df.copy()
+cpy_df["cluster"] = pred
 
-df.to_csv("clustering_for_idoldata.csv")
+cpy_df.to_csv("../output/clustering_for_idoldata.csv")
+
+df_tantou = pd.read_csv("../output/担当合計.csv", header=0, index_col=1)
+df_ero = pd.read_csv("../output/性的合計.csv", header=0, index_col=1)
+df_doutei = pd.read_csv("../output/童貞合計.csv", header=0, index_col=1)
+df_hidoutei = pd.read_csv("../output/非童貞合計.csv", header=0, index_col=1)
+
+
+df["担当_童貞得票"] = 0
+df["担当_非童貞得票"] =0
+df["性的_童貞得票"] = 0
+df["性的_非童貞得票"] =0
+df["童貞_童貞得票"] = 0
+df["童貞_非童貞得票"] =0
+df["非童貞_童貞得票"] = 0
+df["非童貞_非童貞得票"] =0
+
+
+for name in df_tantou.index.tolist():
+	df.loc[name, "担当_童貞得票"] = df_tantou.loc[name, "童貞得票"]
+	df.loc[name, "担当_非童貞得票"] = df_tantou.loc[name, "非童貞得票"]
+
+for name in df_ero.index.tolist():
+	df.loc[name, "性的_童貞得票"] = df_ero.loc[name, "童貞得票"]
+	df.loc[name, "性的_非童貞得票"] = df_ero.loc[name, "非童貞得票"]
+
+for name in df_doutei.index.tolist():
+	df.loc[name, "童貞_童貞得票"] = df_doutei.loc[name, "童貞得票"]
+	df.loc[name, "童貞_非童貞得票"] = df_doutei.loc[name, "非童貞得票"]
+
+for name in df_hidoutei.index.tolist():
+	df.loc[name, "非童貞_童貞得票"] = df_hidoutei.loc[name, "童貞得票"]
+	df.loc[name, "非童貞_非童貞得票"] = df_hidoutei.loc[name, "非童貞得票"]
+
+df = df.dropna(how='any')
+
+pred = KMeans(n_clusters = 4).fit_predict(df.values.tolist())
+cpy_df = df.copy()
+cpy_df["cluster"] = pred
+
+cpy_df.to_csv("../output/全部のせclustering.csv")
