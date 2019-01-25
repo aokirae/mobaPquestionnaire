@@ -76,7 +76,7 @@ def makeGraph(list,file):
 if __name__ == '__main__':
 	df,idol_data,idol_name = input()
 
-	choice = '貴方の最も愛する・担当アイドルをお一人答えてください。'
+	choice = '担当・担当外問わず一番エロい/性的に魅力的だと思うアイドルは誰ですか？'
 	count_all = count(df, idol_name, choice)
 	# makeGraph(count_list, '性的_All')
 
@@ -108,17 +108,17 @@ if __name__ == '__main__':
 		matome[i][4] = matome[i][1] / matome[i][2]
 	matome.sort(key=itemgetter(3,0))
 	matome.reverse()
-	with open('../data/担当合計.csv', mode='w') as f:
-		f.write('名前,童貞得票,非童貞得票,総得票,童貞/非童貞\n')
-		for i in range(len(matome)):
-			f.write(matome[i][0])
-			for j in range(1,len(matome[i])):
-				f.write(',')
-				f.write(str(matome[i][j]))
-			f.write('\n')
+	# with open('../data/担当合計.csv', mode='w') as f:
+	# 	f.write('名前,童貞得票,非童貞得票,総得票,童貞/非童貞\n')
+	# 	for i in range(len(matome)):
+	# 		f.write(matome[i][0])
+	# 		for j in range(1,len(matome[i])):
+	# 			f.write(',')
+	# 			f.write(str(matome[i][j]))
+	# 		f.write('\n')
 	matome.sort(key=itemgetter(4,0))
-	matome.reverse()
-	with open('../data/担当比率ソート.csv', mode='w') as f:
+	#matome.reverse()
+	with open('../output/性的比率ソート.csv', mode='w') as f:
 		f.write('名前,童貞得票,非童貞得票,総得票,童貞/非童貞\n')
 		for i in range(len(matome)):
 			f.write(matome[i][0])
